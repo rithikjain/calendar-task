@@ -36,5 +36,28 @@ class Calendar {
             val cal = Calendar.getInstance()
             return cal.get(Calendar.YEAR)
         }
+
+        /**
+         * @return the current month, index starting from 0
+         */
+        fun getCurrentMonth(): Int {
+            val cal = Calendar.getInstance()
+            return cal.get(Calendar.MONTH)
+        }
+
+        val months = listOf(
+            "January",
+            "February",
+            "March",
+            "April",
+            "May",
+            "June",
+            "July",
+            "August",
+            "September",
+            "October",
+            "November",
+            "December"
+        )
     }
 }

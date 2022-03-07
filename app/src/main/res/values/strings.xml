@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">GrowwCalendarTask</string>
+    <string name="year">Year</string>
+    <string name="month">Month</string>
 </resources>
