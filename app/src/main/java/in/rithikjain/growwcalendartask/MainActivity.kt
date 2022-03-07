@@ -1,17 +1,22 @@
 package `in`.rithikjain.growwcalendartask
 
 import `in`.rithikjain.calendar.Calendar
+import `in`.rithikjain.growwcalendartask.adapters.CalendarAdapter
 import `in`.rithikjain.growwcalendartask.adapters.MonthAdapter
 import `in`.rithikjain.growwcalendartask.adapters.YearAdapter
 import `in`.rithikjain.growwcalendartask.databinding.ActivityMainBinding
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
+
+    private var selectedYear = Calendar.getCurrentYear()
+    private var selectedMonth = Calendar.getCurrentMonth()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -21,6 +26,12 @@ class MainActivity : AppCompatActivity() {
         // Changing the action bar title
         title = "Groww Calendar"
 
+        setUpYearView()
+        setUpMonthView()
+        setUpCalendarView()
+    }
+
+    private fun setUpYearView() {
         // Handling the year recycler view
         val years = (1600..2600).toList()
         val currentYear = Calendar.getCurrentYear()
@@ -39,7 +50,9 @@ class MainActivity : AppCompatActivity() {
             setHasFixedSize(true)
             layoutManager?.scrollToPosition(currentYearOffset - 2)
         }
+    }
 
+    private fun setUpMonthView() {
         // Handling the month recycler view
         val currentMonth = Calendar.getCurrentMonth()
         val monthAdapter = MonthAdapter(Calendar.months, currentMonth, this) { newMonth ->
@@ -58,11 +71,27 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    private fun setUpCalendarView() {
+        val days = Calendar.getFormattedDaysInMonth(selectedMonth, selectedYear)
+
+        val calendarAdapter = CalendarAdapter(days, 20, this) {
+
+        }
+
+        binding.calendarRecyclerView.apply {
+            adapter = calendarAdapter
+            layoutManager = GridLayoutManager(this@MainActivity, 7)
+            setHasFixedSize(true)
+        }
+    }
+
     private fun onYearChanged(year: Int) {
-        Log.d("BRR", year.toString())
+        selectedYear = year
+        setUpCalendarView()
     }
 
     private fun onMonthChanged(month: Int) {
-        Log.d("BRR", month.toString())
+        selectedMonth = month
+        setUpCalendarView()
     }
 }

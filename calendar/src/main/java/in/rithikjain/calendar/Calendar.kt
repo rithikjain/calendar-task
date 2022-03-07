@@ -30,6 +30,25 @@ class Calendar {
         }
 
         /**
+         * Takes [month] and [year] as inputs to get the days with the week start offset
+         * @return the formatted list containing the days in the correct order
+         */
+        fun getFormattedDaysInMonth(month: Int, year: Int): List<String> {
+            val daysInMonthList = mutableListOf<String>()
+            val cal = GregorianCalendar(year, month, 1)
+
+            val daysInMonth = cal.getActualMaximum(Calendar.DAY_OF_MONTH)
+            val firstDayOfWeek = cal.get(Calendar.DAY_OF_WEEK)
+
+            for (i in 1..42) {
+                if (i < firstDayOfWeek || i >= firstDayOfWeek + daysInMonth) daysInMonthList.add("")
+                else daysInMonthList.add("${i - firstDayOfWeek + 1}")
+            }
+
+            return daysInMonthList
+        }
+
+        /**
          * @return the current year
          */
         fun getCurrentYear(): Int {
