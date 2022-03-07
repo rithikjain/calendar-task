@@ -73,8 +73,9 @@ class MainActivity : AppCompatActivity() {
 
     private fun setUpCalendarView() {
         val days = Calendar.getFormattedDaysInMonth(selectedMonth, selectedYear)
+        val currDateWithOffset = Calendar.getCurrentDateWithOffset(selectedMonth, selectedYear)
 
-        val calendarAdapter = CalendarAdapter(days, 20, this) {
+        val calendarAdapter = CalendarAdapter(days, currDateWithOffset, this) {
 
         }
 

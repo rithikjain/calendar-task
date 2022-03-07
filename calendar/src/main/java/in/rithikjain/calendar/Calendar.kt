@@ -64,6 +64,19 @@ class Calendar {
             return cal.get(Calendar.MONTH)
         }
 
+        /**
+         * @return the current date with the offset of the startingDayOfTheWeek
+         */
+        fun getCurrentDateWithOffset(month: Int, year: Int): Int {
+            val currCal = Calendar.getInstance()
+            val currDate = currCal.get(Calendar.DATE)
+
+            val cal = GregorianCalendar(year, month, 1)
+            val firstDayOfWeek = cal.get(Calendar.DAY_OF_WEEK)
+
+            return currDate + firstDayOfWeek - 2
+        }
+
         val months = listOf(
             "January",
             "February",
