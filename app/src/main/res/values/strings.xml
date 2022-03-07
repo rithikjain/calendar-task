@@ -10,4 +10,5 @@
     <string name="fri">Fri</string>
     <string name="sat">Sat</string>
     <string name="selected_date">Selected Date</string>
+    <string name="week_info">Week Info</string>
 </resources>
