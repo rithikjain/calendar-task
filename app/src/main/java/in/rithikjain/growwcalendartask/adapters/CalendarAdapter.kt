@@ -24,16 +24,18 @@ class CalendarAdapter(
         RecyclerView.ViewHolder(binding.root) {
         init {
             binding.root.setOnClickListener {
-                selectedItemPos = adapterPosition
-                onItemClick(selectedItemPos)
+                if (days[adapterPosition] != "") {
+                    selectedItemPos = adapterPosition
+                    onItemClick(selectedItemPos)
 
-                if (lastSelectedItemPos == -1) {
-                    lastSelectedItemPos = selectedItemPos
-                } else {
-                    notifyItemChanged(lastSelectedItemPos)
-                    lastSelectedItemPos = selectedItemPos
+                    if (lastSelectedItemPos == -1) {
+                        lastSelectedItemPos = selectedItemPos
+                    } else {
+                        notifyItemChanged(lastSelectedItemPos)
+                        lastSelectedItemPos = selectedItemPos
+                    }
+                    notifyItemChanged(selectedItemPos)
                 }
-                notifyItemChanged(selectedItemPos)
             }
         }
 

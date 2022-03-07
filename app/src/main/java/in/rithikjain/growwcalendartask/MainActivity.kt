@@ -17,6 +17,7 @@ class MainActivity : AppCompatActivity() {
 
     private var selectedYear = Calendar.getCurrentYear()
     private var selectedMonth = Calendar.getCurrentMonth()
+    private var selectedDate = Calendar.getCurrentDay()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -75,8 +76,8 @@ class MainActivity : AppCompatActivity() {
         val days = Calendar.getFormattedDaysInMonth(selectedMonth, selectedYear)
         val currDateWithOffset = Calendar.getCurrentDateWithOffset(selectedMonth, selectedYear)
 
-        val calendarAdapter = CalendarAdapter(days, currDateWithOffset, this) {
-
+        val calendarAdapter = CalendarAdapter(days, currDateWithOffset, this) { newDateWithOffset ->
+            onDateChanged(newDateWithOffset)
         }
 
         binding.calendarRecyclerView.apply {
@@ -94,5 +95,10 @@ class MainActivity : AppCompatActivity() {
     private fun onMonthChanged(month: Int) {
         selectedMonth = month
         setUpCalendarView()
+    }
+
+    private fun onDateChanged(dateWithOffset: Int) {
+        selectedDate = Calendar.getDateWithoutOffset(dateWithOffset, selectedMonth, selectedYear)
+        Log.d("BRR", "$selectedDate")
     }
 }
