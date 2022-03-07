@@ -191,7 +191,7 @@
 
         <View
             android:layout_width="0dp"
-            android:layout_height="48dp"
+            android:layout_height="32dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/week_info_text_view" />

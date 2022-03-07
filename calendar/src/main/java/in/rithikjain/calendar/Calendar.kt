@@ -105,6 +105,42 @@ class Calendar {
             return outFormatter.format(inDate)
         }
 
+
+        /**
+         * @return the number of weeks elapsed from the start of the year
+         */
+        fun getWeekOfYear(date: Int, month: Int, year: Int): Int {
+            val cal = GregorianCalendar(year, month, date)
+            return cal.get(Calendar.WEEK_OF_YEAR)
+        }
+
+
+        /**
+         * @return the number of weeks elapsed from the start of the month
+         */
+        fun getWeekOfMonth(date: Int, month: Int, year: Int): Int {
+            val cal = GregorianCalendar(year, month, date)
+            return cal.get(Calendar.WEEK_OF_MONTH)
+        }
+
+        /**
+         * @return the week range in which the particular given date is present in
+         */
+        fun getWeekRange(date: Int, month: Int, year: Int): String {
+            val cal = GregorianCalendar(year, month, date)
+            val offset = cal.get(Calendar.DAY_OF_WEEK) - cal.firstDayOfWeek
+
+            cal.add(Calendar.DATE, -offset)
+            val start = cal.time
+
+            cal.add(Calendar.DATE, 6)
+            val end = cal.time
+
+            val formatter = SimpleDateFormat("dd/MM/yy", Locale.US)
+
+            return "${formatter.format(start)} - ${formatter.format(end)}"
+        }
+
         val months = listOf(
             "January",
             "February",

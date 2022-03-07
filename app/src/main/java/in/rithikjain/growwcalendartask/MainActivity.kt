@@ -5,6 +5,7 @@ import `in`.rithikjain.growwcalendartask.adapters.CalendarAdapter
 import `in`.rithikjain.growwcalendartask.adapters.MonthAdapter
 import `in`.rithikjain.growwcalendartask.adapters.YearAdapter
 import `in`.rithikjain.growwcalendartask.databinding.ActivityMainBinding
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
@@ -88,11 +89,25 @@ class MainActivity : AppCompatActivity() {
         }
 
         setUpSelectedDateView()
+        setUpWeekInfoView()
     }
 
     private fun setUpSelectedDateView() {
         binding.selectedDateTextView.text =
             Calendar.getStringFormattedDate(selectedDate, selectedMonth, selectedYear)
+    }
+
+    @SuppressLint("SetTextI18n")
+    private fun setUpWeekInfoView() {
+        val weekOfYear =
+            Calendar.getWeekOfYear(selectedDate, selectedMonth, selectedYear).toString()
+        val weekOfMonth =
+            Calendar.getWeekOfMonth(selectedDate, selectedMonth, selectedYear).toString()
+        val weekRange = Calendar.getWeekRange(selectedDate, selectedMonth, selectedYear)
+
+        binding.weekInfoTextView.text =
+            "$weekRange\n$weekOfYear weeks past the year start\n$weekOfMonth weeks past the month start"
+
     }
 
     private fun onYearChanged(year: Int) {
@@ -108,5 +123,6 @@ class MainActivity : AppCompatActivity() {
     private fun onDateChanged(dateWithOffset: Int) {
         selectedDate = Calendar.getDateWithoutOffset(dateWithOffset, selectedMonth, selectedYear)
         setUpSelectedDateView()
+        setUpWeekInfoView()
     }
 }
