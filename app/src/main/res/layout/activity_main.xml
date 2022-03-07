@@ -134,9 +134,32 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/days_linear_layout"
+        tools:itemCount="42"
         tools:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
         tools:listitem="@layout/calendar_item"
-        tools:itemCount="42"
         tools:spanCount="7" />
+
+    <TextView
+        android:id="@+id/selected_date_title_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="18dp"
+        android:layout_marginVertical="8dp"
+        android:text="@string/selected_date"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/calendar_recycler_view" />
+
+    <TextView
+        android:id="@+id/selected_date_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="18dp"
+        android:layout_marginVertical="8dp"
+        android:text="Wednesday, July 20, 2022"
+        android:textSize="16sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/selected_date_title_text_view" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

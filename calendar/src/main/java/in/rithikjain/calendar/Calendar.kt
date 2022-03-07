@@ -1,5 +1,6 @@
 package `in`.rithikjain.calendar
 
+import java.text.SimpleDateFormat
 import java.util.*
 import java.util.Calendar
 
@@ -73,16 +74,13 @@ class Calendar {
         }
 
         /**
-         * @return the current date with the offset of the startingDayOfTheWeek
+         * @return the date with the offset of the startingDayOfTheWeek
          */
-        fun getCurrentDateWithOffset(month: Int, year: Int): Int {
-            val currCal = Calendar.getInstance()
-            val currDate = currCal.get(Calendar.DATE)
-
+        fun getDateWithOffset(date: Int, month: Int, year: Int): Int {
             val cal = GregorianCalendar(year, month, 1)
             val firstDayOfWeek = cal.get(Calendar.DAY_OF_WEEK)
 
-            return currDate + firstDayOfWeek - 2
+            return date + firstDayOfWeek - 2
         }
 
         /**
@@ -93,6 +91,18 @@ class Calendar {
             val firstDayOfWeek = cal.get(Calendar.DAY_OF_WEEK)
 
             return offsetDate - firstDayOfWeek + 2
+        }
+
+
+        /**
+         * @return human readable date string
+         */
+        fun getStringFormattedDate(date: Int, month: Int, year: Int): String {
+            val inFormatter = SimpleDateFormat("d M y", Locale.US)
+            val inDate = inFormatter.parse("$date ${month + 1} $year")
+
+            val outFormatter = SimpleDateFormat("EEEE, dd MMMM, y", Locale.US)
+            return outFormatter.format(inDate)
         }
 
         val months = listOf(

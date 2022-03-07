@@ -74,7 +74,8 @@ class MainActivity : AppCompatActivity() {
 
     private fun setUpCalendarView() {
         val days = Calendar.getFormattedDaysInMonth(selectedMonth, selectedYear)
-        val currDateWithOffset = Calendar.getCurrentDateWithOffset(selectedMonth, selectedYear)
+        val currDateWithOffset =
+            Calendar.getDateWithOffset(selectedDate, selectedMonth, selectedYear)
 
         val calendarAdapter = CalendarAdapter(days, currDateWithOffset, this) { newDateWithOffset ->
             onDateChanged(newDateWithOffset)
@@ -85,6 +86,13 @@ class MainActivity : AppCompatActivity() {
             layoutManager = GridLayoutManager(this@MainActivity, 7)
             setHasFixedSize(true)
         }
+
+        setUpSelectedDateView()
+    }
+
+    private fun setUpSelectedDateView() {
+        binding.selectedDateTextView.text =
+            Calendar.getStringFormattedDate(selectedDate, selectedMonth, selectedYear)
     }
 
     private fun onYearChanged(year: Int) {
@@ -99,6 +107,6 @@ class MainActivity : AppCompatActivity() {
 
     private fun onDateChanged(dateWithOffset: Int) {
         selectedDate = Calendar.getDateWithoutOffset(dateWithOffset, selectedMonth, selectedYear)
-        Log.d("BRR", "$selectedDate")
+        setUpSelectedDateView()
     }
 }
