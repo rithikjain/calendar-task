@@ -12,9 +12,9 @@ Create a calendar application or Calendar lib/Class which exposes all the necess
 ```
 
 ## Implementation
-[Link to the demo video]()
+[Link to the demo video](https://www.youtube.com/watch?v=u68a-u04fxA)
 
-An APK is also attached in the releases section.
+<b>An APK is also attached in the releases section.</b>
 
 ### Screenshots
 <img src="assets/images/1.jpg" height="400"></img>
