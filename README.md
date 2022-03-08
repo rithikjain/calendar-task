@@ -1,6 +1,34 @@
-# Calendar Lib Documentation
+# Groww Task
 
-## Functions
+## Task Description
+ ```
+Create a calendar application or Calendar lib/Class which exposes all the necessary methods like
+
+1. Shows list of days of current month
+
+2. Able to switch via months, years, go to particular date
+
+3. Create a custom methods to retrieve a week by a given date
+```
+
+## Implementation
+[Link to the demo video]()
+
+An APK is also attached in the releases section.
+
+### Screenshots
+![Screenshot 1](assets/images/1.jpg)
+![Screenshot 2](assets/images/2.jpg)
+
+## Architecture Overview
+```mermaid
+ graph TD
+	 CalendarLibrary --> MainViewModel --> UI(MainActivity)
+ ```
+
+## Calendar Lib Documentation
+
+### Functions
 
 | Name | Summary |
 |---|---|
@@ -17,11 +45,14 @@
 | [getWeekOfYear](assets/docs/get-week-of-year.md) | [jvm]<br>fun [getWeekOfYear](assets/docs/get-week-of-year.md)(date: [Int](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html), month: [Int](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html), year: [Int](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html)): [Int](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html) |
 | [getWeekRange](assets/docs/get-week-range.md) | [jvm]<br>fun [getWeekRange](assets/docs/get-week-range.md)(date: [Int](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html), month: [Int](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html), year: [Int](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-int/index.html)): [String](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html) |
 
-## Properties
+### Properties
 
 | Name | Summary |
 |---|---|
 | [months](assets/docs/months.md) | [jvm]<br>val [months](assets/docs/months.md): [List](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/index.html)&lt;[String](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-string/index.html)&gt; |
 
-
+<br>
+<p align="center">
+	Made with ❤ by Rithik Jain
+</p>
 
