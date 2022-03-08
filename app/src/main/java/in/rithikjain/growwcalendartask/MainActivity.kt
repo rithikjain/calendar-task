@@ -8,6 +8,8 @@ import `in`.rithikjain.growwcalendartask.databinding.ActivityMainBinding
 import android.annotation.SuppressLint
 import android.os.Bundle
 import android.util.Log
+import android.view.Menu
+import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -31,6 +33,20 @@ class MainActivity : AppCompatActivity() {
         setUpYearView()
         setUpMonthView()
         setUpCalendarView()
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.menu, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if (item.itemId == R.id.action_reset_date) {
+            resetDate()
+            return true
+        }
+
+        return super.onOptionsItemSelected(item)
     }
 
     private fun setUpYearView() {
@@ -108,6 +124,16 @@ class MainActivity : AppCompatActivity() {
         binding.weekInfoTextView.text =
             "$weekRange\n$weekOfYear weeks past the year start\n$weekOfMonth weeks past the month start"
 
+    }
+
+    private fun resetDate() {
+        selectedYear = Calendar.getCurrentYear()
+        selectedMonth = Calendar.getCurrentMonth()
+        selectedDate = Calendar.getCurrentDay()
+
+        setUpYearView()
+        setUpMonthView()
+        setUpCalendarView()
     }
 
     private fun onYearChanged(year: Int) {

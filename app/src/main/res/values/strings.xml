@@ -11,4 +11,5 @@
     <string name="sat">Sat</string>
     <string name="selected_date">Selected Date</string>
     <string name="week_info">Week Info</string>
+    <string name="set_today_s_date">Set Today\'s date</string>
 </resources>
