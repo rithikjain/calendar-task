@@ -12,6 +12,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.GridLayoutManager
@@ -128,6 +129,8 @@ class MainActivity : AppCompatActivity() {
     private fun resetDate() {
         viewModel.resetDateToToday()
         initViews()
+
+        Toast.makeText(this, "Date reset to today :)", Toast.LENGTH_SHORT).show()
     }
 
     private fun onYearChanged(year: Int) {
