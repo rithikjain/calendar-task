@@ -17,8 +17,8 @@ Create a calendar application or Calendar lib/Class which exposes all the necess
 An APK is also attached in the releases section.
 
 ### Screenshots
-![Screenshot 1](assets/images/1.jpg)
-![Screenshot 2](assets/images/2.jpg)
+<img src="assets/images/1.jpg" height="300"></img>
+<img src="assets/images/2.jpg" height="300"></img>
 
 ## Architecture Overview
 ```mermaid
