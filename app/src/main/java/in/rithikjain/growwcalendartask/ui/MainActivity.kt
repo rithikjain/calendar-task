@@ -1,15 +1,18 @@
-package `in`.rithikjain.growwcalendartask
+package `in`.rithikjain.growwcalendartask.ui
 
 import `in`.rithikjain.calendar.Calendar
+import `in`.rithikjain.growwcalendartask.R
 import `in`.rithikjain.growwcalendartask.adapters.CalendarAdapter
 import `in`.rithikjain.growwcalendartask.adapters.MonthAdapter
 import `in`.rithikjain.growwcalendartask.adapters.YearAdapter
+import `in`.rithikjain.growwcalendartask.data.CustomDate
 import `in`.rithikjain.growwcalendartask.databinding.ActivityMainBinding
 import android.annotation.SuppressLint
 import android.os.Bundle
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -18,9 +21,7 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
 
-    private var selectedYear = Calendar.getCurrentYear()
-    private var selectedMonth = Calendar.getCurrentMonth()
-    private var selectedDate = Calendar.getCurrentDay()
+    private val viewModel: MainViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -30,12 +31,11 @@ class MainActivity : AppCompatActivity() {
         // Changing the action bar title
         title = "Groww Calendar"
 
-        setUpYearView()
-        setUpMonthView()
-        setUpCalendarView()
+        initViews()
+        initObservers()
     }
 
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.menu, menu)
         return true
     }
@@ -49,12 +49,25 @@ class MainActivity : AppCompatActivity() {
         return super.onOptionsItemSelected(item)
     }
 
+    private fun initViews() {
+        setUpYearView()
+        setUpMonthView()
+        setUpCalendarView()
+    }
+
+    private fun initObservers() {
+        viewModel.dateLiveData.observe(this) {
+            setUpSelectedDateView(it)
+            setUpWeekInfoView(it)
+        }
+    }
+
     private fun setUpYearView() {
         // Handling the year recycler view
         val years = (1600..2600).toList()
-        val currentYear = Calendar.getCurrentYear()
-        val currentYearOffset = currentYear - years[0]
-        val yearAdapter = YearAdapter(years, currentYearOffset, this) { newYear ->
+        val initialYear = viewModel.dateLiveData.value!!.year
+        val initialYearOffset = initialYear - years[0]
+        val yearAdapter = YearAdapter(years, initialYearOffset, this) { newYear ->
             onYearChanged(newYear)
         }
 
@@ -66,14 +79,14 @@ class MainActivity : AppCompatActivity() {
                 false
             )
             setHasFixedSize(true)
-            layoutManager?.scrollToPosition(currentYearOffset - 2)
+            layoutManager?.scrollToPosition(initialYearOffset - 2)
         }
     }
 
     private fun setUpMonthView() {
         // Handling the month recycler view
-        val currentMonth = Calendar.getCurrentMonth()
-        val monthAdapter = MonthAdapter(Calendar.months, currentMonth, this) { newMonth ->
+        val initialMonth = viewModel.dateLiveData.value!!.month
+        val monthAdapter = MonthAdapter(Calendar.months, initialMonth, this) { newMonth ->
             onMonthChanged(newMonth)
         }
 
@@ -85,16 +98,15 @@ class MainActivity : AppCompatActivity() {
                 false
             )
             setHasFixedSize(true)
-            layoutManager?.scrollToPosition(if (currentMonth != 0) currentMonth - 1 else currentMonth)
+            layoutManager?.scrollToPosition(if (initialMonth != 0) initialMonth - 1 else initialMonth)
         }
     }
 
     private fun setUpCalendarView() {
-        val days = Calendar.getFormattedDaysInMonth(selectedMonth, selectedYear)
-        val currDateWithOffset =
-            Calendar.getDateWithOffset(selectedDate, selectedMonth, selectedYear)
+        val days = viewModel.getFormattedDaysInSelectedMonth()
+        val dateWithOffset = viewModel.getSelectedDateWithOffset()
 
-        val calendarAdapter = CalendarAdapter(days, currDateWithOffset, this) { newDateWithOffset ->
+        val calendarAdapter = CalendarAdapter(days, dateWithOffset, this) { newDateWithOffset ->
             onDateChanged(newDateWithOffset)
         }
 
@@ -103,52 +115,32 @@ class MainActivity : AppCompatActivity() {
             layoutManager = GridLayoutManager(this@MainActivity, 7)
             setHasFixedSize(true)
         }
-
-        setUpSelectedDateView()
-        setUpWeekInfoView()
     }
 
-    private fun setUpSelectedDateView() {
-        binding.selectedDateTextView.text =
-            Calendar.getStringFormattedDate(selectedDate, selectedMonth, selectedYear)
+    private fun setUpSelectedDateView(date: CustomDate) {
+        binding.selectedDateTextView.text = viewModel.getReadableDate(date)
     }
 
-    @SuppressLint("SetTextI18n")
-    private fun setUpWeekInfoView() {
-        val weekOfYear =
-            Calendar.getWeekOfYear(selectedDate, selectedMonth, selectedYear).toString()
-        val weekOfMonth =
-            Calendar.getWeekOfMonth(selectedDate, selectedMonth, selectedYear).toString()
-        val weekRange = Calendar.getWeekRange(selectedDate, selectedMonth, selectedYear)
-
-        binding.weekInfoTextView.text =
-            "$weekRange\n$weekOfYear weeks past the year start\n$weekOfMonth weeks past the month start"
-
+    private fun setUpWeekInfoView(date: CustomDate) {
+        binding.weekInfoTextView.text = viewModel.getWeekInfoString(date)
     }
 
     private fun resetDate() {
-        selectedYear = Calendar.getCurrentYear()
-        selectedMonth = Calendar.getCurrentMonth()
-        selectedDate = Calendar.getCurrentDay()
-
-        setUpYearView()
-        setUpMonthView()
-        setUpCalendarView()
+        viewModel.resetDateToToday()
+        initViews()
     }
 
     private fun onYearChanged(year: Int) {
-        selectedYear = year
+        viewModel.updateYear(year)
         setUpCalendarView()
     }
 
     private fun onMonthChanged(month: Int) {
-        selectedMonth = month
+        viewModel.updateMonth(month)
         setUpCalendarView()
     }
 
     private fun onDateChanged(dateWithOffset: Int) {
-        selectedDate = Calendar.getDateWithoutOffset(dateWithOffset, selectedMonth, selectedYear)
-        setUpSelectedDateView()
-        setUpWeekInfoView()
+        viewModel.updateDateWithOffset(dateWithOffset)
     }
 }
